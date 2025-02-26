@@ -1,5 +1,6 @@
-import { PrimaryGeneratedColumn, Column } from "typeorm";
+import { PrimaryGeneratedColumn, Column, Entity} from "typeorm";
 
+@Entity()
 export class Ammo {
     @PrimaryGeneratedColumn('increment')
     id: number;
@@ -15,4 +16,6 @@ export class Ammo {
 
     @Column('integer')
     slots: number;
+
+
 }

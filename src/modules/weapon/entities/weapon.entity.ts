@@ -34,6 +34,6 @@ export class Weapon {
     ability: Record<string, any>;
 
     @ManyToOne(() => Ammo, { nullable: true }) // Armas sem munição terão null
-    @JoinColumn({ name: 'ammunition_id' })
+    @JoinColumn({ name: 'ammo_id' })
     ammo: Ammo | null;
 }

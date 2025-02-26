@@ -20,12 +20,14 @@ import { RaceModule } from './modules/race/race.module';
 import { ShildModule } from './modules/shild/shild.module';
 import { SkillModule } from './modules/skill/skill.module';
 import { WeaponModule } from './modules/weapon/weapon.module';
+import { AmmoModule } from './modules/ammo/ammo.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     AbilityModule,
     AdventureModule,
+    AmmoModule,
     ArmorModule,
     AttributeModule,
     CategoryModule,
