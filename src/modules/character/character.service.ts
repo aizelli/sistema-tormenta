@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Character } from './entities/character.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CharacterService {
-  create(createCharacterDto: CreateCharacterDto) {
-    return 'This action adds a new character';
+
+  constructor(
+    @InjectRepository(Character)
+    private characterRepository: Repository<Character>,
+  ) { }
+
+  async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
+    const character = this.characterRepository.create(createCharacterDto);
+    return await this.characterRepository.save(character);
   }
 
-  findAll() {
-    return `This action returns all character`;
+  async findAll(): Promise<Character[]> {
+    return await this.characterRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} character`;
+  async findByUserId(userId: number):Promise<Character[]>{
+    return await this.characterRepository.find({
+      where: {user:{id: userId}},
+      relations:["user"]
+    });
   }
 
-  update(id: number, updateCharacterDto: UpdateCharacterDto) {
-    return `This action updates a #${id} character`;
+  async findOne(id: number): Promise<Character | null> {
+    return await this.characterRepository.findOneBy({ id: id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} character`;
+  async update(id: number, updateCharacterDto: UpdateCharacterDto): Promise<Character | null> {
+    await this.characterRepository.update(id, updateCharacterDto);
+    return await this.characterRepository.findOneBy({ id: id });
+  }
+
+  async remove(id: number) {
+    return await this.characterRepository.delete(id);
   }
 }
