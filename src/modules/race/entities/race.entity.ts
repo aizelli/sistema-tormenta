@@ -16,6 +16,14 @@ export class Race {
     attributes: Record<string, any>;
 
     @ManyToMany(() => Ability, (ability) => ability.races)
-    @JoinTable({ name: 'race_abilities' }) // Cria a tabela de junção
+    @JoinTable({
+        name: 'race_abilities',
+        joinColumn: {
+            name: 'abilityId', referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'raceIds', referencedColumnName: 'id'
+        }
+    }) // Cria a tabela de junção
     abilities: Ability[];
 }

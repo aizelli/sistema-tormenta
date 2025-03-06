@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAbilityDto } from './dto/create-ability.dto';
 import { UpdateAbilityDto } from './dto/update-ability.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Ability } from './entities/ability.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AbilityService {
-  create(createAbilityDto: CreateAbilityDto) {
-    return 'This action adds a new ability';
+
+  constructor(
+    @InjectRepository(Ability)
+    private abilityRepository: Repository<Ability>
+  ) { }
+
+  async create(createAbilityDto: CreateAbilityDto): Promise<Ability> {
+    return this.abilityRepository.save(createAbilityDto);
   }
 
-  findAll() {
-    return `This action returns all ability`;
+  async findAll(): Promise<Ability[]> {
+    return await this.abilityRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ability`;
+  async findOne(id: number): Promise<Ability | null> {
+    return await this.abilityRepository.findOneBy({ id: id });
   }
 
-  update(id: number, updateAbilityDto: UpdateAbilityDto) {
-    return `This action updates a #${id} ability`;
+  async update(id: number, updateAbilityDto: UpdateAbilityDto) {
+    await this.abilityRepository.save(updateAbilityDto)
+    return await this.abilityRepository.findOneBy({ id: id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} ability`;
+  async remove(id: number) {
+    return await this.abilityRepository.delete(id);
   }
 }
