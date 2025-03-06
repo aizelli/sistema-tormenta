@@ -1,3 +1,4 @@
+import { Character } from "src/modules/character/entities/character.entity";
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -25,4 +26,7 @@ export class Skill {
 
     @Column('bool')
     isArmorPenalty: boolean;
+
+    @ManyToMany(() => Character, (character) => character.skill)
+    characters: Character[];
 }

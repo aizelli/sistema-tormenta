@@ -1,3 +1,4 @@
+import { Character } from "src/modules/character/entities/character.entity";
 import { God } from "src/modules/god/entities/god.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -43,4 +44,8 @@ export class Power {
             this.gods = null; // Se não for GRANTED, mantém null
         }
     }
+
+    @ManyToMany(() => Character, (character) => character.power)
+    characters: Character[];
+
 }

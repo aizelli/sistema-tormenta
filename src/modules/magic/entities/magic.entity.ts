@@ -1,5 +1,6 @@
 import { createPoolCluster } from "mysql2";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Character } from "src/modules/character/entities/character.entity";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum ClassRole {
     ARCANE = "arcana",
@@ -54,4 +55,8 @@ export class Magic {
         default: SchoolRole.ABJURATION,
     })
     school: SchoolRole;
+
+    @ManyToMany(() => Character, (character) => character.magic)
+    characters: Character[];
+
 }

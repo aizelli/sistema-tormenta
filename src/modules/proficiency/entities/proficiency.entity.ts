@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Character } from "src/modules/character/entities/character.entity";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Proficiency {
@@ -7,4 +8,8 @@ export class Proficiency {
 
     @Column('varchar')
     name: string;
+
+    @ManyToMany(() => Character, (character) => character.proficiency)
+    characters: Character[];
+
 }
