@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from 'config/typeOrmConfig';
 import { UserModule } from './modules/user/user.module';
@@ -21,6 +21,7 @@ import { ShildModule } from './modules/shild/shild.module';
 import { SkillModule } from './modules/skill/skill.module';
 import { WeaponModule } from './modules/weapon/weapon.module';
 import { AmmoModule } from './modules/ammo/ammo.module';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -46,4 +47,8 @@ import { AmmoModule } from './modules/ammo/ammo.module';
     UserModule,
     WeaponModule
   ]
-}) export class AppModule { }
+}) export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
