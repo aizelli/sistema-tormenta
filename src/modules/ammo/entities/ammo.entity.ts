@@ -16,6 +16,4 @@ export class Ammo {
 
     @Column('integer')
     slots: number;
-
-
 }

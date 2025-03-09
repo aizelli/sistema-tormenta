@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateArmorDto } from './dto/create-armor.dto';
 import { UpdateArmorDto } from './dto/update-armor.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Armor } from './entities/armor.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ArmorService {
-  create(createArmorDto: CreateArmorDto) {
-    return 'This action adds a new armor';
+  constructor(
+    @InjectRepository(Armor)
+    private armorRepository: Repository<Armor>,
+  ) { }
+
+  async create(createArmorDto: CreateArmorDto): Promise<Armor> {
+    return this.armorRepository.save(createArmorDto);
   }
 
-  findAll() {
-    return `This action returns all armor`;
+  async findAll(): Promise<Armor[]> {
+    return this.armorRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} armor`;
+  async findOne(id: number): Promise<Armor> {
+    const armor = await this.armorRepository.findOneBy({ id });
+    if (!armor) {
+      throw new NotFoundException(`Armor with ID ${id} not found`);
+    }
+    return armor;
   }
 
-  update(id: number, updateArmorDto: UpdateArmorDto) {
-    return `This action updates a #${id} armor`;
+  async update(id: number, updateArmorDto: UpdateArmorDto): Promise<Armor> {
+    await this.armorRepository.update(id, updateArmorDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} armor`;
+  async remove(id: number): Promise<void> {
+    await this.armorRepository.delete(id);
   }
 }

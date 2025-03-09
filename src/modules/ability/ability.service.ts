@@ -26,7 +26,7 @@ export class AbilityService {
   }
 
   async update(id: number, updateAbilityDto: UpdateAbilityDto) {
-    await this.abilityRepository.save(updateAbilityDto)
+    await this.abilityRepository.update(id, updateAbilityDto)
     return await this.abilityRepository.findOneBy({ id: id });
   }
 
