@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAttributeDto } from './dto/create-attribute.dto';
 import { UpdateAttributeDto } from './dto/update-attribute.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Attribute } from './entities/attribute.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AttributeService {
-  create(createAttributeDto: CreateAttributeDto) {
-    return 'This action adds a new attribute';
+  constructor(
+    @InjectRepository(Attribute)
+    private attributeRepository: Repository<Attribute>,
+  ) { }
+
+  async create(createAttributeDto: CreateAttributeDto): Promise<Attribute> {
+    return this.attributeRepository.save(createAttributeDto);
   }
 
-  findAll() {
-    return `This action returns all attribute`;
+  async findAll(): Promise<Attribute[]> {
+    return this.attributeRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} attribute`;
+  async findOne(id: number): Promise<Attribute> {
+    const attribute = await this.attributeRepository.findOneBy({ id });
+    if (!attribute) {
+      throw new NotFoundException(`Attribute with ID ${id} not found`);
+    }
+    return attribute;
   }
 
-  update(id: number, updateAttributeDto: UpdateAttributeDto) {
-    return `This action updates a #${id} attribute`;
+  async update(id: number, updateAttributeDto: UpdateAttributeDto): Promise<Attribute> {
+    await this.attributeRepository.update(id, updateAttributeDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} attribute`;
+  async remove(id: number): Promise<void> {
+    await this.attributeRepository.delete(id);
   }
 }
