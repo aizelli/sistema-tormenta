@@ -13,8 +13,8 @@ export class Adventure {
     @Column('text')
     description: string;
 
-    @ManyToOne(() => User, (user) => user.adventures, { onDelete: 'SET NULL' })
-    user: User;
+    @OneToOne(() => User, (user) => user.adventure, { onDelete: 'SET NULL' })
+    user: User | null;
 
     @OneToMany(() => Character, (character) => character.adventure)
     characters: Character[];

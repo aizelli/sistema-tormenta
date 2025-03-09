@@ -44,6 +44,6 @@ export class User {
     })
     updateAt: Date;
 
-    @OneToMany(() => Adventure, (adventure) => adventure.user)
-    adventures: Adventure[];
+    @OneToMany(() => Adventure, (adventure) => adventure.user, { nullable: true, cascade: true })
+    adventure: Adventure | null;
 }

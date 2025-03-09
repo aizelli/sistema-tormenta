@@ -89,8 +89,8 @@ export class Character {
     @JoinColumn({ name: 'userId' })
     user: User;
 
-    @ManyToOne(() => Adventure, (adventure) => adventure.characters, { onDelete: 'SET NULL' })
-    adventure: Adventure;
+    @ManyToOne(() => Adventure, (adventure) => adventure.characters, { nullable: true, onDelete: 'SET NULL' })
+    adventure: Adventure | null;
 
     @ManyToMany(() => Skill, (skill) => skill.id)
     @JoinTable({

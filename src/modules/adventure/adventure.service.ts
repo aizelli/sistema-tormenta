@@ -1,26 +1,64 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdventureDto } from './dto/create-adventure.dto';
 import { UpdateAdventureDto } from './dto/update-adventure.dto';
+import { Adventure } from './entities/adventure.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../user/entities/user.entity';
+import { Character } from '../character/entities/character.entity';
 
 @Injectable()
 export class AdventureService {
-  create(createAdventureDto: CreateAdventureDto) {
-    return 'This action adds a new adventure';
+
+  constructor(
+    @InjectRepository(Adventure)
+    private adventureRepository: Repository<Adventure>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>
+  ) { }
+
+  async create(createAdventureDto: CreateAdventureDto): Promise<Adventure> {
+    return await this.adventureRepository.save(createAdventureDto);
   }
 
-  findAll() {
-    return `This action returns all adventure`;
+  async findAll(): Promise<Adventure[]> {
+    return await this.adventureRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} adventure`;
+  async findOne(id: number): Promise<Adventure | null> {
+    return await this.adventureRepository.findOneBy({ id: id });
   }
 
-  update(id: number, updateAdventureDto: UpdateAdventureDto) {
-    return `This action updates a #${id} adventure`;
+  async update(id: number, updateAdventureDto: UpdateAdventureDto) {
+    await this.adventureRepository.save(updateAdventureDto);
+    return this.adventureRepository.findOneBy({ id: id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} adventure`;
+  async remove(id: number) {
+    return this.adventureRepository.delete(id);
+  }
+
+  async createAdventureWithUser(userId: number, createAdventureDto: CreateAdventureDto): Promise<Adventure> {
+    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ["adventure"] });
+
+    if (!user) {
+      throw new Error("Usuário não encontrado.");
+    }
+
+    if (user.adventure) {
+      throw new Error("Este usuário já possui uma aventura.");
+    }
+
+    const adventure = this.adventureRepository.create({
+      ...createAdventureDto,
+      user: user
+    });
+
+    await this.adventureRepository.save(adventure);
+
+    user.adventure = adventure;
+    await this.userRepository.save(user);
+
+    return adventure;
   }
 }

@@ -5,11 +5,16 @@ import { UpdateAdventureDto } from './dto/update-adventure.dto';
 
 @Controller('adventure')
 export class AdventureController {
-  constructor(private readonly adventureService: AdventureService) {}
+  constructor(private readonly adventureService: AdventureService) { }
 
   @Post()
   create(@Body() createAdventureDto: CreateAdventureDto) {
     return this.adventureService.create(createAdventureDto);
+  }
+
+  @Post('/user/:userId')
+  createAdventureWithUser(@Body() createAdventureDto: CreateAdventureDto, @Param('userId') userId: string) {
+    return this.adventureService.createAdventureWithUser(+userId, createAdventureDto)
   }
 
   @Get()

@@ -25,6 +25,8 @@ export class CharacterService {
   constructor(
     @InjectRepository(Character)
     private characterRepository: Repository<Character>,
+    @InjectRepository(Adventure)
+    private adventureRepository: Repository<Adventure>
   ) { }
 
   async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
@@ -99,5 +101,18 @@ export class CharacterService {
 
   async remove(id: number) {
     return await this.characterRepository.delete(id);
+  }
+
+  async addCharacterToAdventure(characterId: number, adventureId: number) {
+    const character = await this.characterRepository.findOne({ where: { id: characterId }, relations: ['adventure'] });
+    if (!character) {
+      throw new Error("Personagem não encontrado.");
+    }
+
+    const adventure = await this.adventureRepository.findOne({ where: { id: adventureId } });
+
+    character.adventure = adventure
+
+    return await this.characterRepository.save(character)
   }
 }
