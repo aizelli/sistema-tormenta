@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateChclassDto } from './dto/create-chclass.dto';
 import { UpdateChclassDto } from './dto/update-chclass.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Chclass } from './entities/chclass.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ChclassService {
-  create(createChclassDto: CreateChclassDto) {
-    return 'This action adds a new class';
+  constructor(
+    @InjectRepository(Chclass)
+    private chclassRepository: Repository<Chclass>,
+  ) { }
+
+  async create(createChclassDto: CreateChclassDto): Promise<Chclass> {
+    return this.chclassRepository.save(createChclassDto);
   }
 
-  findAll() {
-    return `This action returns all class`;
+  async findAll(): Promise<Chclass[]> {
+    return this.chclassRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} class`;
+  async findOne(id: number): Promise<Chclass> {
+    const chclass = await this.chclassRepository.findOneBy({ id });
+    if (!chclass) {
+      throw new NotFoundException(`Chclass with ID ${id} not found`);
+    }
+    return chclass;
   }
 
-  update(id: number, updateClassDto: UpdateChclassDto) {
-    return `This action updates a #${id} class`;
+  async update(id: number, updateChclassDto: UpdateChclassDto): Promise<Chclass> {
+    await this.chclassRepository.update(id, updateChclassDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} class`;
+  async remove(id: number): Promise<void> {
+    await this.chclassRepository.delete(id);
   }
 }
