@@ -1,26 +1,64 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOriginDto } from './dto/create-origin.dto';
 import { UpdateOriginDto } from './dto/update-origin.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Origin } from './entities/origin.entity';
+import { Repository } from 'typeorm';
+import { Ability } from '../ability/entities/ability.entity'; // Importe a entidade Ability
 
 @Injectable()
 export class OriginService {
-  create(createOriginDto: CreateOriginDto) {
-    return 'This action adds a new origin';
+  constructor(
+    @InjectRepository(Origin)
+    private originRepository: Repository<Origin>,
+    @InjectRepository(Ability) // Injete o repositório Ability
+    private abilityRepository: Repository<Ability>,
+  ) { }
+
+  async create(createOriginDto: CreateOriginDto): Promise<Origin> {
+    const origin = this.originRepository.create(createOriginDto);
+    return this.originRepository.save(origin);
   }
 
-  findAll() {
-    return `This action returns all origin`;
+  async findAll(): Promise<Origin[]> {
+    return this.originRepository.find({ relations: ['abilities'] }); // Inclua as habilidades na consulta
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} origin`;
+  async findOne(id: number): Promise<Origin> {
+    const origin = await this.originRepository.findOne({
+      where: { id },
+      relations: ['abilities'], // Inclua as habilidades na consulta
+    });
+    if (!origin) {
+      throw new NotFoundException(`Origin with ID ${id} not found`);
+    }
+    return origin;
   }
 
-  update(id: number, updateOriginDto: UpdateOriginDto) {
-    return `This action updates a #${id} origin`;
+  async update(id: number, updateOriginDto: UpdateOriginDto): Promise<Origin> {
+    const { abilityIds, ...originData } = updateOriginDto;
+    await this.originRepository.update(id, originData);
+
+    // Se houver IDs de personagens, atualiza a associação
+    if (abilityIds) {
+      await this.originRepository
+        .createQueryBuilder()
+        .relation(Ability, 'abilities')
+        .of(id)
+        .set(abilityIds); // Define os IDs dos personagens diretamente
+    } else {
+      // Remove a associação com todos os personagens se characterIds for nulo ou vazio
+      await this.originRepository
+        .createQueryBuilder()
+        .relation(Ability, 'abilities')
+        .of(id)
+        .set([]);
+    }
+
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} origin`;
+  async remove(id: number): Promise<void> {
+    await this.originRepository.delete(id);
   }
 }
