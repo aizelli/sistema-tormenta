@@ -10,9 +10,7 @@ import { Ability } from '../ability/entities/ability.entity';
 export class RaceService {
   constructor(
     @InjectRepository(Race)
-    private raceRepository: Repository<Race>,
-    @InjectRepository(Ability)
-    private abilityRepository: Repository<Ability>,
+    private raceRepository: Repository<Race>
   ) { }
 
   async create(createRaceDto: CreateRaceDto): Promise<Race> {

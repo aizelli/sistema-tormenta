@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateChclassDto } from './dto/create-chclass.dto';
-import { UpdateChclassDto } from './dto/update-chclass.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Chclass } from './entities/chclass.entity';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
+import { UpdateChclassDto } from './dto/update-chclass.dto';
 
 @Injectable()
 export class ChclassService {
   constructor(
     @InjectRepository(Chclass)
-    private chclassRepository: Repository<Chclass>,
+    private chclassRepository: Repository<Chclass>
   ) { }
 
   async create(createChclassDto: CreateChclassDto): Promise<Chclass> {
@@ -17,19 +17,38 @@ export class ChclassService {
   }
 
   async findAll(): Promise<Chclass[]> {
-    return this.chclassRepository.find();
+    return this.chclassRepository.find({ relations: ['abilities'] }); // Inclua 'abilities' nas relações
   }
 
   async findOne(id: number): Promise<Chclass> {
-    const chclass = await this.chclassRepository.findOneBy({ id });
+    const chclass = await this.chclassRepository.findOne({
+      where: { id },
+      relations: ['abilities'], // Inclua 'abilities' nas relações
+    });
     if (!chclass) {
       throw new NotFoundException(`Chclass with ID ${id} not found`);
     }
     return chclass;
   }
 
-  async update(id: number, updateChclassDto: UpdateChclassDto): Promise<Chclass> {
-    await this.chclassRepository.update(id, updateChclassDto);
+  async update(id: number, updateChclassDto: Partial<UpdateChclassDto>): Promise<Chclass> {
+    const chclass = Object.assign(
+      {},
+      {
+        name: updateChclassDto.name,
+        description: updateChclassDto.description,
+        traits: updateChclassDto.traits
+      });
+    await this.chclassRepository.update(id, chclass);
+    const abilityIds = updateChclassDto.abilityIds;
+
+    if (abilityIds !== undefined) {
+      await this.chclassRepository
+        .createQueryBuilder()
+        .relation(Chclass, 'abilities')
+        .of(id)
+        .add(abilityIds);
+    }
     return this.findOne(id);
   }
 

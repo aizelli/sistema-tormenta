@@ -10,9 +10,7 @@ import { Ability } from '../ability/entities/ability.entity'; // Importe a entid
 export class OriginService {
   constructor(
     @InjectRepository(Origin)
-    private originRepository: Repository<Origin>,
-    @InjectRepository(Ability) // Injete o repositório Ability
-    private abilityRepository: Repository<Ability>,
+    private originRepository: Repository<Origin>
   ) { }
 
   async create(createOriginDto: CreateOriginDto): Promise<Origin> {

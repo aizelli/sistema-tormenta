@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { InventoryItem } from "src/modules/inventory-item/entities/inventory-item.entity";
+import { Inventory } from "src/modules/inventory/entities/inventory.entity";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum ItemRole {
     ADVENTUREGEAR = "equipamentos de aventuras",
@@ -36,4 +38,7 @@ export class Item {
         default: ItemRole.ADVENTUREGEAR,
     })
     type: ItemRole;
+
+    @OneToMany(() => InventoryItem, (inventoryItem) => inventoryItem.item)
+    inventoryItems: InventoryItem[];
 }

@@ -9,5 +9,6 @@ import { Ammo } from './entities/ammo.entity';
     TypeOrmModule.forFeature([Ammo])],
   controllers: [AmmoController],
   providers: [AmmoService],
+  exports:[TypeOrmModule]
 })
 export class AmmoModule { }

@@ -32,19 +32,6 @@ export class Power {
     })
     type: PowerRole;
 
-    @ManyToOne(() => God, { nullable: true }) // Permite null quando necessário
-    gods: God[] | null;
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    validateGod() {
-        if (this.type == PowerRole.GRANTED && !this.gods) {
-            throw new Error('O campo god é obrigatório quando type é GRANTED.');
-        } else if (this.type !== PowerRole.GRANTED) {
-            this.gods = null; // Se não for GRANTED, mantém null
-        }
-    }
-
     @ManyToMany(() => Character, (character) => character.power)
     characters: Character[];
 

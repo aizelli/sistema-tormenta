@@ -5,7 +5,6 @@ import { UserModule } from './modules/user/user.module';
 import { AbilityModule } from './modules/ability/ability.module';
 import { AdventureModule } from './modules/adventure/adventure.module';
 import { ArmorModule } from './modules/armor/armor.module';
-import { AttributeModule } from './modules/attribute/attribute.module';
 import { CategoryModule } from './modules/category/category.module';
 import { CharacterModule } from './modules/character/character.module';
 import { ChclassModule } from './modules/chclass/chclass.module';
@@ -22,6 +21,7 @@ import { SkillModule } from './modules/skill/skill.module';
 import { WeaponModule } from './modules/weapon/weapon.module';
 import { AmmoModule } from './modules/ammo/ammo.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { InventoryItemModule } from './modules/inventory-item/inventory-item.module';
 
 @Module({
   imports: [
@@ -30,12 +30,12 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     AdventureModule,
     AmmoModule,
     ArmorModule,
-    AttributeModule,
     CategoryModule,
     CharacterModule,
     ChclassModule,
     GodModule,
     InventoryModule,
+    InventoryItemModule,
     ItemModule,
     MagicModule,
     OriginModule,

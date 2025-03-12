@@ -1,9 +1,8 @@
-import { join } from "path";
 import { Adventure } from "src/modules/adventure/entities/adventure.entity";
 import { Armor } from "src/modules/armor/entities/armor.entity";
-import { Attribute } from "src/modules/attribute/entities/attribute.entity";
 import { Chclass } from "src/modules/chclass/entities/chclass.entity";
 import { God } from "src/modules/god/entities/god.entity";
+import { Inventory } from "src/modules/inventory/entities/inventory.entity";
 import { Magic } from "src/modules/magic/entities/magic.entity";
 import { Origin } from "src/modules/origin/entities/origin.entity";
 import { Power } from "src/modules/power/entities/power.entity";
@@ -53,6 +52,30 @@ export class Character {
     @Column('boolean')
     inGame: boolean;
 
+    //atributos
+    @Column('integer')
+    strength: number;
+
+    @Column('integer')
+    dexterity: number;
+
+    @Column('integer')
+    constitution: number;
+
+    @Column('integer')
+    intelligence: number;
+
+    @Column('integer')
+    wisdom: number;
+
+    @Column('integer')
+    charisma: number;
+
+    //relações
+    @OneToOne(() => Inventory, (inventory) => inventory.character)
+    @JoinColumn()
+    inventory: Inventory;
+
     @ManyToOne(() => Race)
     @JoinColumn({ name: 'raceId' })
     race: Race;
@@ -64,10 +87,6 @@ export class Character {
     @ManyToOne(() => Origin)
     @JoinColumn({ name: 'originId' })
     origin: Origin;
-
-    @OneToOne(() => Attribute)
-    @JoinColumn({ name: 'attributeId' })
-    attribute: Attribute;
 
     @ManyToOne(() => God)
     @JoinColumn({ name: 'godId' })

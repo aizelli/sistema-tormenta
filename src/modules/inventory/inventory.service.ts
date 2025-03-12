@@ -36,4 +36,5 @@ export class InventoryService {
   async remove(id: number): Promise<void> {
     await this.inventoryRepository.delete(id);
   }
+
 }

@@ -30,9 +30,6 @@ export class Ability {
     @ManyToMany(() => Race, (race) => race.abilities)
     races: Race[];
 
-    @ManyToMany(() => Chclass, (chclass) => chclass.abilities)
-    chclasses: Chclass[];
-
     @ManyToMany(() => Origin, (origin) => origin.abilities)
     origins: Origin[];
 }

@@ -30,7 +30,15 @@ export class God {
     @Column('varchar')
     dutiesRestrictions: string;
 
-    @ManyToMany(() => Power, (power) => power.gods)
-    @JoinTable({ name: 'power_gods' })
+    @ManyToMany(() => Power)
+    @JoinTable({
+        name: 'power_gods',
+        joinColumn: {
+            name: 'godId', referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'powerId', referencedColumnName: 'id'
+        }
+    })
     powers: Power[];
 }

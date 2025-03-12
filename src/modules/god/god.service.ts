@@ -30,7 +30,29 @@ export class GodService {
   }
 
   async update(id: number, updateGodDto: UpdateGodDto): Promise<God> {
-    await this.godRepository.update(id, updateGodDto);
+    const god = Object.assign(
+      {},
+      {
+        name: updateGodDto.name,
+        description: updateGodDto.description,
+        beliefsGoals: updateGodDto.beliefsGoals,
+        holySymbol: updateGodDto.holySymbol,
+        channelEnergy: updateGodDto.channelEnergy,
+        favoredWeapon: updateGodDto.favoredWeapon,
+        devotees: updateGodDto.devotees,
+        dutiesRestrictions: updateGodDto.dutiesRestrictions
+      }
+    );
+    await this.godRepository.update(id, god);
+    const powerIds = updateGodDto.powerIds;
+
+    if (powerIds !== undefined) {
+      await this.godRepository
+        .createQueryBuilder()
+        .relation(God, 'powers')
+        .of(id)
+        .add(powerIds);
+    }
     return this.findOne(id);
   }
 

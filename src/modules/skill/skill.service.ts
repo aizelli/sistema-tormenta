@@ -10,9 +10,7 @@ import { Character } from '../character/entities/character.entity';
 export class SkillService {
   constructor(
     @InjectRepository(Skill)
-    private skillRepository: Repository<Skill>,
-    @InjectRepository(Character)
-    private characterRepository: Repository<Character>,
+    private skillRepository: Repository<Skill>
   ) { }
 
   async create(createSkillDto: CreateSkillDto): Promise<Skill> {

@@ -3,19 +3,13 @@ import { CreatePowerDto } from './dto/create-power.dto';
 import { UpdatePowerDto } from './dto/update-power.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Power } from './entities/power.entity';
-import { In, Repository } from 'typeorm';
-import { Character } from '../character/entities/character.entity';
-import { God } from '../god/entities/god.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PowerService {
   constructor(
     @InjectRepository(Power)
-    private powerRepository: Repository<Power>,
-    @InjectRepository(Character)
-    private characterRepository: Repository<Character>,
-    @InjectRepository(God)
-    private godRepository: Repository<God>,
+    private powerRepository: Repository<Power>
   ) { }
 
   async create(createPowerDto: CreatePowerDto): Promise<Power> {

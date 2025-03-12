@@ -10,9 +10,7 @@ import { Character } from '../character/entities/character.entity';
 export class ProficiencyService {
   constructor(
     @InjectRepository(Proficiency)
-    private proficiencyRepository: Repository<Proficiency>,
-    @InjectRepository(Character)
-    private characterRepository: Repository<Character>,
+    private proficiencyRepository: Repository<Proficiency>
   ) { }
 
   async create(createProficiencyDto: CreateProficiencyDto): Promise<Proficiency> {

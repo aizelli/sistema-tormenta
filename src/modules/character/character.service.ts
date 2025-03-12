@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
 import { Adventure } from '../adventure/entities/adventure.entity';
 import { Armor } from '../armor/entities/armor.entity';
-import { Attribute } from '../attribute/entities/attribute.entity';
 import { Chclass } from '../chclass/entities/chclass.entity';
 import { God } from '../god/entities/god.entity';
 import { Magic } from '../magic/entities/magic.entity';
@@ -36,7 +35,6 @@ export class CharacterService {
       user: { id: createCharacterDto.userId } as User,
       adventure: { id: createCharacterDto.adventureId } as Adventure,
       armor: { id: createCharacterDto.adventureId } as Armor,
-      attribute: { id: createCharacterDto.attributeId } as Attribute,
       chClass: { id: createCharacterDto.chClassId } as Chclass,
       god: { id: createCharacterDto.godId } as God,
       origin: { id: createCharacterDto.originId } as Origin,

@@ -67,6 +67,43 @@ export class CreateCharacterDto {
     })
     inGame: boolean;
 
+    // Atributos
+    @ApiProperty({
+        description: 'Força do personagem',
+        example: 10
+    })
+    strength: number;
+
+    @ApiProperty({
+        description: 'Destreza do personagem',
+        example: 12
+    })
+    dexterity: number;
+
+    @ApiProperty({
+        description: 'Constituição do personagem',
+        example: 14
+    })
+    constitution: number;
+
+    @ApiProperty({
+        description: 'Inteligência do personagem',
+        example: 16
+    })
+    intelligence: number;
+
+    @ApiProperty({
+        description: 'Sabedoria do personagem',
+        example: 18
+    })
+    wisdom: number;
+
+    @ApiProperty({
+        description: 'Carisma do personagem',
+        example: 20
+    })
+    charisma: number;
+
     // IDs das relações com outras entidades
     @ApiProperty({
         description: 'Indica o id do usuário que o personagem faz relação',
@@ -106,13 +143,13 @@ export class CreateCharacterDto {
 
     @ApiProperty({
         description: 'Indica o id das pericias que o personagem faz relação',
-        example: [{id: 1},{id: 2}]
+        example: [{ id: 1 }, { id: 2 }]
     })
-    skillIds: Number[];
+    skillIds: number[];
 
     @ApiProperty({
         description: 'Indica o id dos poderes que o personagem faz relação',
-        example: [{id: 1},{id: 2}]
+        example: [{ id: 1 }, { id: 2 }]
     })
     powerIds: number[];
 
@@ -136,13 +173,13 @@ export class CreateCharacterDto {
 
     @ApiProperty({
         description: 'Indica o id das magias que o personagem faz relação',
-        example: [{id: 1},{id: 2}]
+        example: [{ id: 1 }, { id: 2 }]
     })
     magicIds: number[];
 
     @ApiProperty({
         description: 'Indica o id do usuário que o personagem faz relação',
-        example: [{id: 1},{id: 2}],
+        example: [{ id: 1 }, { id: 2 }],
     })
     proficiencyIds: number[];
 
