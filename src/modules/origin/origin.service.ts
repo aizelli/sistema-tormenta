@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Origin } from './entities/origin.entity';
 import { Repository } from 'typeorm';
 import { Ability } from '../ability/entities/ability.entity'; // Importe a entidade Ability
+import { tracingChannel } from 'diagnostics_channel';
 
 @Injectable()
 export class OriginService {
@@ -34,25 +35,24 @@ export class OriginService {
   }
 
   async update(id: number, updateOriginDto: UpdateOriginDto): Promise<Origin> {
-    const { abilityIds, ...originData } = updateOriginDto;
-    await this.originRepository.update(id, originData);
+    const origin = Object.assign(
+      {},
+      {
+        name: updateOriginDto.name,
+        description: updateOriginDto.description,
+        traits: updateOriginDto.traits
+      }
+    )
+    await this.originRepository.update(id, origin);
+    const abilityIds = updateOriginDto.abilityIds
 
-    // Se houver IDs de personagens, atualiza a associação
-    if (abilityIds) {
+    if (abilityIds !== undefined) {
       await this.originRepository
         .createQueryBuilder()
-        .relation(Ability, 'abilities')
+        .relation(Origin, 'abilities')
         .of(id)
-        .set(abilityIds); // Define os IDs dos personagens diretamente
-    } else {
-      // Remove a associação com todos os personagens se characterIds for nulo ou vazio
-      await this.originRepository
-        .createQueryBuilder()
-        .relation(Ability, 'abilities')
-        .of(id)
-        .set([]);
+        .add(abilityIds);
     }
-
     return this.findOne(id);
   }
 

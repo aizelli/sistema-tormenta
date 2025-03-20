@@ -8,8 +8,8 @@ export class CreateProficiencyDto {
     name: string;
 
     @ApiProperty({
-        description: 'IDs dos personagens que possuem a proficiência',
-        example: [1, 2, 3],
+        description: 'Descrição do que a proeficiencia faz',
+        example: "Consegue saltar mais alto e mantem o equilibrio",
     })
-    characterIds: number;
+    description: string;
 }

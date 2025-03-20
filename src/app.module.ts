@@ -19,7 +19,6 @@ import { RaceModule } from './modules/race/race.module';
 import { ShildModule } from './modules/shild/shild.module';
 import { SkillModule } from './modules/skill/skill.module';
 import { WeaponModule } from './modules/weapon/weapon.module';
-import { AmmoModule } from './modules/ammo/ammo.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { InventoryItemModule } from './modules/inventory-item/inventory-item.module';
 
@@ -28,7 +27,6 @@ import { InventoryItemModule } from './modules/inventory-item/inventory-item.mod
     TypeOrmModule.forRoot(typeOrmConfig),
     AbilityModule,
     AdventureModule,
-    AmmoModule,
     ArmorModule,
     CategoryModule,
     CharacterModule,

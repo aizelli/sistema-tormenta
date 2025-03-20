@@ -33,33 +33,7 @@ export class PowerService {
   }
 
   async update(id: number, updatePowerDto: UpdatePowerDto): Promise<Power> {
-    const { characterIds, godId, ...powerData } = updatePowerDto;
-    await this.powerRepository.update(id, powerData);
-
-    if (characterIds) {
-      await this.powerRepository
-        .createQueryBuilder()
-        .relation(Power, 'characters')
-        .of(id)
-        .set(characterIds);
-    }
-
-    if (godId !== undefined) { // Verifica se godId foi fornecido no DTO
-      if (godId) {
-        await this.powerRepository
-          .createQueryBuilder()
-          .relation(Power, 'gods')
-          .of(id)
-          .set(godId);
-      } else {
-        await this.powerRepository
-          .createQueryBuilder()
-          .relation(Power, 'gods')
-          .of(id)
-          .set(null); // Define como null se godId for explicitamente null
-      }
-    }
-
+    await this.powerRepository.update(id, updatePowerDto);
     return this.findOne(id);
   }
 

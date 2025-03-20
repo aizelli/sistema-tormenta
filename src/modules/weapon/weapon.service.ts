@@ -4,15 +4,12 @@ import { UpdateWeaponDto } from './dto/update-weapon.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Weapon } from './entities/weapon.entity';
 import { Repository } from 'typeorm';
-import { Ammo } from '../ammo/entities/ammo.entity';
 
 @Injectable()
 export class WeaponService {
   constructor(
     @InjectRepository(Weapon)
-    private weaponRepository: Repository<Weapon>,
-    @InjectRepository(Ammo)
-    private ammoRepository: Repository<Ammo>,
+    private weaponRepository: Repository<Weapon>
   ) { }
 
   async create(createWeaponDto: CreateWeaponDto): Promise<Weapon> {
@@ -36,20 +33,8 @@ export class WeaponService {
   }
 
   async update(id: number, updateWeaponDto: UpdateWeaponDto): Promise<Weapon> {
-    const { ammoId, ...weaponData } = updateWeaponDto;
-    await this.weaponRepository.update(id, weaponData);
-
-    const weapon = await this.findOne(id); // Get the updated weapon
-
-    if (ammoId !== undefined) {
-      if (ammoId === null) {
-        weapon.ammo = null;
-      } else {
-        weapon.ammo = await this.ammoRepository.findOneBy({ id: ammoId });
-      }
-      await this.weaponRepository.save(weapon);
-    }
-    return weapon;
+    await this.weaponRepository.update(id, updateWeaponDto);
+    return await this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {

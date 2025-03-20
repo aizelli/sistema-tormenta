@@ -1,4 +1,3 @@
-import { Ammo } from "src/modules/ammo/entities/ammo.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -33,7 +32,6 @@ export class Weapon {
     @Column({ type: 'json', nullable: true })
     ability: Record<string, any>;
 
-    @ManyToOne(() => Ammo, { nullable: true }) // Armas sem munição terão null
-    @JoinColumn({ name: 'ammo_id' })
-    ammo: Ammo | null;
+    @Column({ type: 'json', nullable: true })
+    ammo: Record<string, any>;
 }

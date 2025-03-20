@@ -9,7 +9,7 @@ export class Proficiency {
     @Column('varchar')
     name: string;
 
-    @ManyToMany(() => Character, (character) => character.proficiency)
-    characters: Character[];
+    @Column('text')
+    description: string
 
 }

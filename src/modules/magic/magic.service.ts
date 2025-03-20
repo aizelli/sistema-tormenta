@@ -4,15 +4,12 @@ import { UpdateMagicDto } from './dto/update-magic.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Magic } from './entities/magic.entity';
 import { In, Repository } from 'typeorm';
-import { Character } from '../character/entities/character.entity';
 
 @Injectable()
 export class MagicService {
   constructor(
     @InjectRepository(Magic)
-    private magicRepository: Repository<Magic>,
-    @InjectRepository(Character)
-    private characterRepository: Repository<Character>,
+    private magicRepository: Repository<Magic>
   ) { }
 
   async create(createMagicDto: CreateMagicDto): Promise<Magic> {
@@ -36,25 +33,7 @@ export class MagicService {
   }
 
   async update(id: number, updateMagicDto: UpdateMagicDto): Promise<Magic> {
-    const { characterIds, ...magicData } = updateMagicDto;
-    await this.magicRepository.update(id, magicData);
-
-    // Se houver IDs de personagens, atualiza a associação
-    if (characterIds) {
-      await this.magicRepository
-        .createQueryBuilder()
-        .relation(Magic, 'characters')
-        .of(id)
-        .set(characterIds); // Define os IDs dos personagens diretamente
-    } else {
-      // Remove a associação com todos os personagens se characterIds for nulo ou vazio
-      await this.magicRepository
-        .createQueryBuilder()
-        .relation(Magic, 'characters')
-        .of(id)
-        .set([]);
-    }
-
+    await this.magicRepository.update(id, updateMagicDto);
     return this.findOne(id);
   }
 

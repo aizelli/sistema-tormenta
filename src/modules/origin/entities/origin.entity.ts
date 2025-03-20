@@ -19,10 +19,10 @@ export class Origin {
     @JoinTable({
         name: 'origin_abilities',
         joinColumn: {
-            name: 'abilityId', referencedColumnName: 'id'
+            name: 'originId', referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'originIds', referencedColumnName: 'id'
+            name: 'abilityId', referencedColumnName: 'id'
         }
     }) // Cria a tabela de junção
     abilities: Ability[];

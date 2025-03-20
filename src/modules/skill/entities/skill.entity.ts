@@ -12,9 +12,9 @@ export class Skill {
     @Column('text')
     description: string;
 
-    @Column('json')
-    actions: string[];
-
+    @Column({ type: 'json', nullable: true })
+    actions: Record<string, any>;
+    
     @Column('varchar')
     attributeKey: string;
 

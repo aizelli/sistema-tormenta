@@ -31,8 +31,4 @@ export class Power {
         default: PowerRole.GRANTED,
     })
     type: PowerRole;
-
-    @ManyToMany(() => Character, (character) => character.power)
-    characters: Character[];
-
 }

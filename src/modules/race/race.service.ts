@@ -42,15 +42,8 @@ export class RaceService {
         .createQueryBuilder()
         .relation(Race, 'abilities')
         .of(id)
-        .set(abilityIds);
-    } else {
-      await this.raceRepository
-        .createQueryBuilder()
-        .relation(Race, 'abilities')
-        .of(id)
-        .set([]);
+        .add(abilityIds);
     }
-
     return this.findOne(id);
   }
 

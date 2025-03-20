@@ -51,10 +51,4 @@ export class CreateMagicDto {
         example: SchoolRole.EVOCATION,
     })
     school: SchoolRole;
-
-    @ApiProperty({
-        description: 'IDs dos personagens que conhecem a magia',
-        example: [1, 2, 3],
-    })
-    characterIds: number; // Array de IDs dos personagens
 }

@@ -19,9 +19,4 @@ export class CreateRaceDto {
     })
     attributes: Record<string, any>;
 
-    @ApiProperty({
-        description: 'IDs das habilidades que a raça concede',
-        example: [1, 2, 3],
-    })
-    abilityIds: number;
 }

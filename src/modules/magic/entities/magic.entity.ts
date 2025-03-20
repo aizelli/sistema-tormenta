@@ -55,8 +55,4 @@ export class Magic {
         default: SchoolRole.ABJURATION,
     })
     school: SchoolRole;
-
-    @ManyToMany(() => Character, (character) => character.magic)
-    characters: Character[];
-
 }

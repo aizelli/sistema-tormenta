@@ -27,15 +27,4 @@ export class CreatePowerDto {
     })
     type: PowerRole;
 
-    @ApiProperty({
-        description: 'ID do deus que concede o poder (se aplicável)',
-        example: 1,
-    })
-    godId: number | null; // Aceita número ou null
-
-    @ApiProperty({
-        description: 'IDs dos personagens que possuem o poder',
-        example: [1, 2, 3],
-    })
-    characterIds: number;
 }

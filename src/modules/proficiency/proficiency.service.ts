@@ -34,23 +34,7 @@ export class ProficiencyService {
   }
 
   async update(id: number, updateProficiencyDto: UpdateProficiencyDto): Promise<Proficiency> {
-    const { characterIds, ...proficiencyData } = updateProficiencyDto;
-    await this.proficiencyRepository.update(id, proficiencyData);
-
-    if (characterIds) {
-      await this.proficiencyRepository
-        .createQueryBuilder()
-        .relation(Proficiency, 'characters')
-        .of(id)
-        .set(characterIds);
-    } else {
-      await this.proficiencyRepository
-        .createQueryBuilder()
-        .relation(Proficiency, 'characters')
-        .of(id)
-        .set([]);
-    }
-
+    await this.proficiencyRepository.update(id, updateProficiencyDto);
     return this.findOne(id);
   }
 

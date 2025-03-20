@@ -39,6 +39,9 @@ export class Item {
     })
     type: ItemRole;
 
+    @Column({ type: 'json', nullable: true })
+    effects: Record<string, any>;
+
     @OneToMany(() => InventoryItem, (inventoryItem) => inventoryItem.item)
     inventoryItems: InventoryItem[];
 }

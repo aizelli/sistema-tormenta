@@ -15,9 +15,9 @@ export class CreateSkillDto {
 
     @ApiProperty({
         description: 'Ações que a habilidade permite realizar',
-        example: ['Mover-se silenciosamente', 'Ocultar-se'],
+        example: { ação: 'Esconder', descrição: 'Mover-se silenciosamente' },
     })
-    actions: string[];
+    actions: Record<string, any>;
 
     @ApiProperty({
         description: 'Atributo chave da habilidade',
@@ -42,10 +42,4 @@ export class CreateSkillDto {
         example: true,
     })
     isArmorPenalty: boolean;
-
-    @ApiProperty({
-        description: 'IDs dos personagens que possuem a habilidade',
-        example: [1, 2, 3],
-    })
-    characterIds: number[]; // Alterado para number[]
 }

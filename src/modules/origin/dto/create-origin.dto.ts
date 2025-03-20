@@ -19,9 +19,5 @@ export class CreateOriginDto {
     })
     traits: Record<string, any>;
 
-    @ApiProperty({
-        description: 'IDs das habilidades que a origem concede',
-        example: [1, 2, 3],
-    })
-    abilityIds: number; // Array de IDs das habilidades
+   
 }

@@ -32,4 +32,10 @@ export class CreateItemDto {
         example: ItemRole.ALCHEMICAL,
     })
     type: ItemRole;
+
+    @ApiProperty({
+        description: 'Tipo de efeito que o item proporciona',
+        example: { efeito: 'restaurção', valor: '10', tipo:'vida' },
+    })
+    effects: Record<string, any>;
 }

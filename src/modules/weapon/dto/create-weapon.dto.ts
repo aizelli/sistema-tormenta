@@ -3,13 +3,13 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateWeaponDto {
     @ApiProperty({
         description: 'Nome da arma',
-        example: 'Espada Longa',
+        example: 'Arco Longo',
     })
     name: string;
 
     @ApiProperty({
         description: 'Descrição da arma',
-        example: 'Uma espada longa e afiada.',
+        example: 'Um arco simples de boa envergadura.',
     })
     description: string;
 
@@ -33,7 +33,7 @@ export class CreateWeaponDto {
 
     @ApiProperty({
         description: 'Alcance da arma',
-        example: 'Corpo a corpo',
+        example: '15',
     })
     range: string;
 
@@ -45,7 +45,7 @@ export class CreateWeaponDto {
 
     @ApiProperty({
         description: 'Tipo da arma (objeto com informações adicionais)',
-        example: { tipo: 'cortante', material: 'aço' },
+        example: { tipo: 'arma de longo alcance', material: 'madeira' },
     })
     type: Record<string, any>;
 
@@ -56,9 +56,8 @@ export class CreateWeaponDto {
     ability: Record<string, any>;
 
     @ApiProperty({
-        description: 'ID da munição da arma (se aplicável)',
-        example: 1,
-        nullable: true, // Permite null
+        description: 'Munição da arma (se aplicável)',
+        example: { tipo: 'flecha', quantidade: 20 },
     })
-    ammoId: number | null;
+    ammo: Record<string, any>;
 }
