@@ -130,12 +130,6 @@ export class CreateCharacterDto {
     originId: number;
 
     @ApiProperty({
-        description: 'Indica o id dos atributos que o personagem faz relação',
-        example: 1,
-    })
-    attributeId: number;
-
-    @ApiProperty({
         description: 'Indica o id do Deus que o personagem faz relação',
         example: 1,
     })

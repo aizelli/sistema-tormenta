@@ -63,7 +63,25 @@ export class CharacterService {
   }
 
   async findOne(id: number): Promise<Character | null> {
-    return await this.characterRepository.findOneBy({ id: id });
+    return await this.characterRepository.findOne({
+      where: { id: id },
+      relations: [
+        'inventory',
+        'race',
+        'chClass',
+        'origin',
+        'god',
+        'weapon',
+        'armor',
+        'shild',
+        'user',
+        'adventure',
+        'skill',
+        'proficiency',
+        'power',
+        'magic'
+      ]
+    });
   }
 
   async update(id: number, updateCharacterDto: UpdateCharacterDto): Promise<Character | null> {
