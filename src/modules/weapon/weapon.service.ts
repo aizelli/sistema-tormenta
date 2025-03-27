@@ -18,7 +18,7 @@ export class WeaponService {
   }
 
   async findAll(): Promise<Weapon[]> {
-    return this.weaponRepository.find({ relations: ['ammo'] });
+    return this.weaponRepository.find();
   }
 
   async findOne(id: number): Promise<Weapon> {

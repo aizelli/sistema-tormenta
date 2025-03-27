@@ -18,7 +18,7 @@ export class MagicService {
   }
 
   async findAll(): Promise<Magic[]> {
-    return this.magicRepository.find({ relations: ['characters'] });
+    return this.magicRepository.find();
   }
 
   async findOne(id: number): Promise<Magic> {

@@ -26,7 +26,4 @@ export class Skill {
 
     @Column('bool')
     isArmorPenalty: boolean;
-
-    @ManyToMany(() => Character, (character) => character.skill)
-    characters: Character[];
 }

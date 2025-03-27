@@ -18,7 +18,7 @@ export class PowerService {
   }
 
   async findAll(): Promise<Power[]> {
-    return this.powerRepository.find({ relations: ['characters', 'gods'] });
+    return this.powerRepository.find();
   }
 
   async findOne(id: number): Promise<Power> {

@@ -3,7 +3,7 @@ import { ChclassService } from './chclass.service';
 import { CreateChclassDto } from './dto/create-chclass.dto';
 import { UpdateChclassDto } from './dto/update-chclass.dto';
 
-@Controller('class')
+@Controller('chclass')
 export class ChclassController {
   constructor(private readonly chclassService: ChclassService) {}
 

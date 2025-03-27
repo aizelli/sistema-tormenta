@@ -19,7 +19,7 @@ export class SkillService {
   }
 
   async findAll(): Promise<Skill[]> {
-    return this.skillRepository.find({ relations: ['characters'] });
+    return this.skillRepository.find();
   }
 
   async findOne(id: number): Promise<Skill> {

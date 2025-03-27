@@ -19,7 +19,7 @@ export class ProficiencyService {
   }
 
   async findAll(): Promise<Proficiency[]> {
-    return this.proficiencyRepository.find({ relations: ['characters'] });
+    return this.proficiencyRepository.find();
   }
 
   async findOne(id: number): Promise<Proficiency> {
